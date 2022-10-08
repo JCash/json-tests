@@ -10,11 +10,11 @@ const char* get_lib_name();
 extern void* parse_json(const char* json, size_t length);
 extern void traverse_json(void* _doc, double* sum);
 extern const char* stringify_json(void* _doc, size_t* string_length);
-extern void free_json(void *doc);
+extern void free_json(void* doc);
 
-static const char *read_file(const char *path, size_t *size)
+static const char* read_file(const char* path, size_t* size)
 {
-    FILE *file = fopen(path, "r");
+    FILE* file = fopen(path, "r");
     if (file == NULL)
     {
         fprintf(stderr, "Expected file \"%s\" not found", path);
@@ -23,7 +23,7 @@ static const char *read_file(const char *path, size_t *size)
     fseek(file, 0, SEEK_END);
     long len = ftell(file);
     fseek(file, 0, SEEK_SET);
-    char *buffer = malloc(len + 1);
+    char* buffer = (char*)malloc(len + 1);
 
     if (buffer == NULL)
     {
@@ -37,7 +37,7 @@ static const char *read_file(const char *path, size_t *size)
     buffer[len] = '\0';
 
     *size = (size_t)len;
-    return (const char *)buffer;
+    return (const char*)buffer;
 }
 
 static double calc_time(clock_t t[2])
@@ -56,7 +56,7 @@ static void output(const char* format, ...)
     fflush(stderr);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
     const char* json = 0;
     size_t size = 0;
@@ -65,6 +65,7 @@ int main(int argc, char **argv)
 
     if (json == 0)
     {
+        printf("No json file specified\n");
         return -1;
     }
 
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
 
     if (!doc)
     {
-        free((void *)json);
+        free((void*)json);
         output("%s: Failed reading json %s\n", get_lib_name(), argv[1]);
         return 1;
     }
@@ -106,8 +107,8 @@ int main(int argc, char **argv)
 
     free_json(doc);
     printf("%s:\tSize: %u  Parse: %fs Stringify: %fs Traverse: %fs\n", get_lib_name(), (uint32_t)size,
-                            calc_time(t_parse), calc_time(t_stringify), calc_time(t_traverse));
+        calc_time(t_parse), calc_time(t_stringify), calc_time(t_traverse));
 
-    free((void *)json);
+    free((void*)json);
     return 0;
 }

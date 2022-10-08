@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os, re, sys, subprocess
 
-ALL_TESTS=['yyjson', 'cjson', 'parson', 'zzzjson']
+ALL_TESTS=['yyjson', 'cjson', 'parson', 'zzzjson', 'simdjson']
 JSON_FILES=['assets/1.json', 'assets/2.json', 'assets/3.json', 'assets/4.json']
 JSON_SIZES={}
 REPORTS={}
