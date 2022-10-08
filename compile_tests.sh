@@ -8,17 +8,21 @@ clang -O3 -flto -fpic -c -o build/main.o src/main.c
 
 clang -Os -flto -fpic -o build/null src/example_null.c build/main.o
 
-YYJSON_DIR=../yyjson
-clang -Os -flto -fpic -o build/yyjson -DYYJSON_DISABLE_WRITER -DYYJSON_DISABLE_FAST_FP_CONV=1  build/main.o src/example_yyjson.c ${YYJSON_DIR}/src/yyjson.c -I${YYJSON_DIR}
+LIB_INCLUDE=./modules/yyjson
+LIB_SOURCE=./modules/yyjson
+clang -Os -flto -fpic -o build/yyjson -DYYJSON_DISABLE_WRITER -DYYJSON_DISABLE_FAST_FP_CONV=1  build/main.o src/example_yyjson.c ${LIB_SOURCE}/src/yyjson.c -I${LIB_INCLUDE}
 
-CJSON_DIR=../cjson
-clang -O3 -flto -fpic -o build/cjson  build/main.o src/example_cjson.c ${CJSON_DIR}/cJSON.c ${CJSON_DIR}/cJSON_Utils.c -I${CJSON_DIR}
+LIB_INCLUDE=./modules/cjson
+LIB_SOURCE=./modules/cjson
+clang -O3 -flto -fpic -o build/cjson  build/main.o src/example_cjson.c ${LIB_SOURCE}/cJSON.c ${LIB_SOURCE}/cJSON_Utils.c -I${LIB_INCLUDE}
 
-PARSON_DIR=../parson
-clang -O3 -flto -fpic -o build/parson build/main.o src/example_parson.c ${PARSON_DIR}/parson.c -I${PARSON_DIR}
+LIB_INCLUDE=./modules/parson
+LIB_SOURCE=./modules/parson
+clang -O3 -flto -fpic -o build/parson build/main.o src/example_parson.c ${LIB_SOURCE}/parson.c -I${LIB_INCLUDE}
 
-ZZZJSON_DIR=../zzzjson
-clang -O3 -flto -fpic -o build/zzzjson build/main.o src/example_zzzjson.c -I${ZZZJSON_DIR}
+LIB_INCLUDE=./modules/zzzjson
+LIB_SOURCE=
+clang -O3 -flto -fpic -o build/zzzjson build/main.o src/example_zzzjson.c -I${LIB_INCLUDE}
 
 LIB_INCLUDE=./modules/simdjson/singleheader
 LIB_SOURCE=./modules/simdjson/singleheader

@@ -110,5 +110,7 @@ int main(int argc, char** argv)
         calc_time(t_parse), calc_time(t_stringify), calc_time(t_traverse));
 
     free((void*)json);
+    fflush(stdout);
+    fflush(stderr);
     return 0;
 }
