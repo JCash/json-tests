@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-import os, re, sys, subprocess
+import os, re, sys, json, subprocess
+from typing import OrderedDict
+from collections import OrderedDict
 
-ALL_TESTS=['yyjson', 'cjson', 'parson', 'zzzjson', 'simdjson']
+ALL_TESTS=['yyjson', 'simdjson', 'zzzjson', 'cjson', 'parson']
 JSON_FILES=['assets/1.json', 'assets/2.json', 'assets/3.json', 'assets/4.json']
 JSON_SIZES={}
 REPORTS={}
@@ -49,10 +51,10 @@ def parse_output(output):
             n_allocations = int(m.group(2))
     return t_parse, t_stringify, t_traverse, n_memory, n_allocations
 
-def create_report(libname, json, json_size, output):
+def create_report(libname, json_path, json_size, output):
     report = {}
     report['name'] = libname
-    report['path'] = json
+    report['path'] = json_path
     report['size'] = json_size
     t_parse, t_stringify, t_traverse, n_memory, n_allocations = parse_output(output)
     report['t_parse'] = t_parse
@@ -78,19 +80,19 @@ def run_test(libname):
 
     env = dict(os.environ)
     env['DYLD_INSERT_LIBRARIES'] = MEMPROF
-    for json, json_size in JSON_SIZES.items():
+    for json_path, json_size in JSON_SIZES.items():
         args=[]
         args.append('./build/' + libname)
-        args.append(json)
+        args.append(json_path)
         output = env_run(env, args)
         print(output)
-        test_report = create_report(libname, json, json_size, output)
+        test_report = create_report(libname, json_path, json_size, output)
         report['tests'].append(test_report)
 
 
 def get_json_sizes(sizes):
-    for json in JSON_FILES:
-        sizes[json] = get_file_size(json)
+    for json_path in JSON_FILES:
+        sizes[json_path] = get_file_size(json_path)
     return sizes
 
 
@@ -98,6 +100,15 @@ def run_all_tests():
     get_json_sizes(JSON_SIZES)
     for test in ALL_TESTS:
         run_test(test)
+
+def get_values_from_reports(reports, key):
+    out = OrderedDict()
+    for libname, report in reports.items():
+        values = []
+        for testdata in report['tests']:
+            values.append(testdata[key])
+        out[libname] = values
+    return out
 
 def print_reports():
     print("*********************************************************")
@@ -111,8 +122,8 @@ def print_reports():
         print(','.join([r['name'], str(r['exesize'])]))
 
     reports = {}
-    for json in JSON_FILES:
-        reports[json] = []
+    for json_path in JSON_FILES:
+        reports[json_path] = []
 
     for _, r in REPORTS.items():
         for t in r['tests']:
@@ -125,6 +136,84 @@ def print_reports():
             print(','.join([path, t['name'],
                             str(t['t_parse']), str(t['t_stringify']), str(t['t_traverse']),
                             str(t['n_memory']), str(t['n_allocations'])]))
+
+    def create_report(key_name):
+        data = OrderedDict()
+
+        xlabels = []
+        for file in JSON_FILES:
+            size = JSON_SIZES[file]
+            if size < 1024:
+                sz = '%db' % size
+            else:
+                sz = '%dkb' % (size//1024)
+            lbl = '%s\n(%s)' % (file, sz)
+            xlabels.append(lbl)
+        data["xlabels"] = xlabels
+
+        xvalues = []
+        allvalues = get_values_from_reports(REPORTS, key_name)
+        for libname, values in allvalues.items():
+            xvalues.append(libname)
+            xvalues.append(values)
+
+        data["xvalues"] = xvalues
+        return data
+
+    def write_report(name, data):
+        outpath = 'reports/%s.json' % name
+        with open(outpath, 'w') as f:
+            s = json.dumps(data, indent = 2)
+            f.write(s)
+            #print(s)
+        print("Wrote", outpath)
+
+    print("*********************************************************")
+
+    data = create_report('t_parse')
+    data["title"] = "Parsing .json files"
+    data["ylabel"] = "Time (s)"
+    write_report('parse', data)
+
+    data = create_report('t_traverse')
+    data["title"] = "Traversing DOM"
+    data["ylabel"] = "Time (s)"
+    write_report('traverse', data)
+
+    data = create_report('n_allocations')
+    data["title"] = "Number of allocations"
+    data["ylabel"] = "Count"
+    write_report('allocations', data)
+
+    data = create_report('n_memory')
+    data["title"] = "Amount of memory"
+    data["ylabel"] = "kilobytes"
+    newxvalues = []
+    for v in data['xvalues']:
+        if isinstance(v, list):
+            newxvalues.append([x // 1024 for x in v])
+        else:
+            newxvalues.append(v)
+    data['xvalues'] = newxvalues
+    write_report('memory', data)
+
+# {
+#     "title": "Parson .json files",
+#     "ylabel": "Time (s)",
+#     "xlabels": [
+#         "1.json (364b)",
+#         "2.json (945kb)",
+#         "3.json (1720kb)",
+#         "4.json (3980kb)"
+#     ],
+#     "xvalues": [
+#         "yyjson", [1.3e-05, 0.000822, 0.001469, 0.017246],
+#         "simdjson", [0.000105, 0.001687, 0.002455, 0.022555],
+#         "zzzjson", [1.2e-05, 0.002121, 0.003584, 0.032257],
+#         "cjson", [1.7e-05, 0.005614, 0.00924, 0.14927],
+#         "parson", [5e-05, 0.016044, 0.025027, 0.25136]
+#     ]
+# }
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
