@@ -173,6 +173,7 @@ def print_reports():
     data = create_report('t_parse')
     data["title"] = "Parsing .json files"
     data["ylabel"] = "Time (s)"
+    data["yscale"] = "log"
     write_report('parse', data)
 
     data = create_report('t_traverse')
@@ -183,6 +184,7 @@ def print_reports():
     data = create_report('n_allocations')
     data["title"] = "Number of allocations"
     data["ylabel"] = "Count"
+    data["yscale"] = "log"
     write_report('allocations', data)
 
     data = create_report('n_memory')

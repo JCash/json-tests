@@ -12,6 +12,7 @@ def parse_json(path):
 # {
 #     "title": "Parson .json files",
 #     "ylabel": "Time (s)",
+#     "yscale": "log", # linear if omitted
 #     "xlabels": [
 #         "1.json (364b)",
 #         "2.json (945kb)",
@@ -39,6 +40,8 @@ def render_bar_data(data, outpath):
     half_width = max_width * 0.5
 
     fig, ax = plt.subplots()
+
+    ax.set_yscale(data.get('yscale', 'linear'))
 
     for i in range(0, len(xvalues)//2):
         name = xvalues[i*2+0]

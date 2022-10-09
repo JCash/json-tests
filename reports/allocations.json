@@ -43,5 +43,6 @@
     ]
   ],
   "title": "Number of allocations",
-  "ylabel": "Count"
+  "ylabel": "Count",
+  "yscale": "log"
 }
