@@ -2,10 +2,15 @@
 
 ## Setup + Build
 
+(Only tested with macOS)
 Install submodules and then build:
 
-    ./update_submodules.sh
-    ./compile_tests.sh
+    $ ./update_submodules.sh
+    $ ./compile_tests.sh
+
+Prerequisites for the image generation are `matplotlib` and `numpy`:
+
+    $ brew install numpy matplotlib
 
 ## Run tests
 
@@ -13,6 +18,8 @@ Install submodules and then build:
     ./generate_images.sh
 
 ## Results
+
+Tested on macOS M1 (arm64)
 
 [parse](./reports/parse.json)
 [traverse](./reports/traverse.json)
