@@ -20,11 +20,11 @@ Install submodules and then build:
 [allocations](./reports/allocations.json)
 
 
-<img src="generated/parse.png" alt="time parsing json files" width="350">
-<img src="generated/traverse.png" alt="time traversing json files" width="350">
+<img src="generated/parse.png" alt="time parsing json files">
+<img src="generated/traverse.png" alt="time traversing json files">
 
-<img src="generated/memory.png" alt="amount of memory used" width="350">
-<img src="generated/allocations.png" alt="number of allocations" width="350">
+<img src="generated/memory.png" alt="amount of memory used">
+<img src="generated/allocations.png" alt="number of allocations">
 
 
 # Links
