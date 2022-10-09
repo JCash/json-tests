@@ -8,7 +8,7 @@ JSON_FILES=['assets/1.json', 'assets/2.json', 'assets/3.json', 'assets/4.json']
 JSON_SIZES={}
 REPORTS={}
 
-MEMPROF=os.environ.get('MEMPROF','./libmemprofile.dylib')
+MEMPROF=os.environ.get('MEMPROF','./modules/memprofile/libmemprofile.dylib')
 
 class RunException(Exception):
     pass

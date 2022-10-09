@@ -4,6 +4,8 @@ set -e
 
 mkdir -p build
 
+(cd modules/memprofile && ./compile_clang.sh)
+
 clang -O3 -flto -fpic -c -o build/main.o src/main.c
 
 clang -Os -flto -fpic -o build/null src/example_null.c build/main.o

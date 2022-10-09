@@ -13,3 +13,6 @@
 [submodule "modules/yyjson"]
 	path = modules/yyjson
 	url = git@github.com:ibireme/yyjson.git
+[submodule "modules/memprofile"]
+	path = modules/memprofile
+	url = git@github.com:JCash/memprofile.git
