@@ -11,7 +11,7 @@ const char* get_lib_name()
     return "yyjson";
 }
 
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     yyjson_doc* doc = yyjson_read(json, length, 0);
     return doc;

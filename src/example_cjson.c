@@ -11,7 +11,7 @@ const char* get_lib_name()
     return "cjson";
 }
 
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     cJSON* doc = cJSON_ParseWithLength(json, length);
     return doc;

@@ -20,6 +20,13 @@
       27053,
       62477
     ],
+    "centijson",
+    [
+      20,
+      981,
+      1749,
+      4020
+    ],
     "zzzjson",
     [
       25,
@@ -43,5 +50,11 @@
     ]
   ],
   "title": "Amount of memory",
-  "ylabel": "kilobytes"
+  "ylabel": "kilobytes",
+  "hlines": [
+    0,
+    944,
+    1720,
+    3980
+  ]
 }

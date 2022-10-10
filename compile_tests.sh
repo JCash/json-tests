@@ -30,6 +30,10 @@ LIB_INCLUDE=./modules/simdjson/singleheader
 LIB_SOURCE=./modules/simdjson/singleheader
 clang++ -O3 -flto -fpic -std=c++11 -o build/simdjson build/main.o -I${LIB_INCLUDE} ${LIB_SOURCE}/simdjson.cpp src/example_simdjson.cpp
 
+LIB_INCLUDE=./modules/centijson
+LIB_SOURCE=./modules/centijson
+clang -Os -flto -fpic -o build/centijson build/main.o src/example_centijson.c ${LIB_SOURCE}/src/json.c -I${LIB_INCLUDE}/src
+
 rm build/*.o
 
 strip build/yyjson

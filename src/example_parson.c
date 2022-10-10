@@ -8,7 +8,7 @@ const char* get_lib_name()
     return "parson";
 }
 
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     JSON_Value* doc = json_parse_string_with_comments(json);
     return doc;

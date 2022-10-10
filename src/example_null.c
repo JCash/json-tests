@@ -6,7 +6,7 @@ const char* get_lib_name()
     return "null";
 }
 
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     return (void*)(uintptr_t)1;
 }

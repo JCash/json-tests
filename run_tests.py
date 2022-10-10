@@ -3,10 +3,10 @@ import os, re, sys, json, subprocess
 from typing import OrderedDict
 from collections import OrderedDict
 
-ALL_TESTS=['yyjson', 'simdjson', 'zzzjson', 'cjson', 'parson']
+ALL_TESTS=['yyjson', 'simdjson', 'centijson', 'zzzjson', 'cjson', 'parson']
 JSON_FILES=['assets/1.json', 'assets/2.json', 'assets/3.json', 'assets/4.json']
-JSON_SIZES={}
-REPORTS={}
+JSON_SIZES=OrderedDict()
+REPORTS=OrderedDict()
 
 MEMPROF=os.environ.get('MEMPROF','./modules/memprofile/libmemprofile.dylib')
 
@@ -190,6 +190,7 @@ def print_reports():
     data = create_report('n_memory')
     data["title"] = "Amount of memory"
     data["ylabel"] = "kilobytes"
+    data["hlines"] = [JSON_SIZES[file] // 1024 for file in JSON_FILES]
     newxvalues = []
     for v in data['xvalues']:
         if isinstance(v, list):

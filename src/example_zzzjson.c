@@ -7,7 +7,7 @@ const char* get_lib_name()
   return "zzzjson";
 }
 
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     zj_Allocator* A = zj_NewAllocator();
     zj_Value* root = zj_NewValue(A);

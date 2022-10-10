@@ -16,3 +16,6 @@
 [submodule "modules/memprofile"]
 	path = modules/memprofile
 	url = git@github.com:JCash/memprofile.git
+[submodule "modules/centijson"]
+	path = modules/centijson
+	url = git@github.com:mity/centijson.git

@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 const char* get_lib_name();
-extern void* parse_json(const char* json, size_t length);
+extern void* parse_json(const char* json, size_t length, double* sum);
 extern void traverse_json(void* _doc, double* sum);
 extern const char* stringify_json(void* _doc, size_t* string_length);
 extern void free_json(void* doc);
@@ -73,9 +73,14 @@ int main(int argc, char** argv)
     clock_t t_stringify[2];
     clock_t t_traverse[2];
 
-    t_parse[0] = clock();
-    void* doc = parse_json(json, size);
-    t_parse[1] = clock();
+    void* doc = 0;
+    {
+        t_parse[0] = clock();
+        double sum = 0;
+        doc = parse_json(json, size, &sum);
+        t_parse[1] = clock();
+        printf("parse: sum: %g\n", sum);
+    }
 
     if (!doc)
     {
@@ -84,11 +89,13 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    t_traverse[0] = clock();
-    double sum = 0;
-    traverse_json(doc, &sum);
-    t_traverse[1] = clock();
-    printf("traverse: sum: %g\n", sum);
+    {
+        t_traverse[0] = clock();
+        double sum = 0;
+        traverse_json(doc, &sum);
+        t_traverse[1] = clock();
+        printf("traverse: sum: %g\n", sum);
+    }
 
     // t_stringify[0] = clock();
     // size_t string_length;

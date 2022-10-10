@@ -15,7 +15,7 @@ struct Document
 };
 
 extern "C"
-void* parse_json(const char* json, size_t length)
+void* parse_json(const char* json, size_t length, double* sum)
 {
     Document* doc = new Document();
 

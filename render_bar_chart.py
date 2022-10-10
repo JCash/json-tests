@@ -37,7 +37,7 @@ def render_bar_data(data, outpath):
     x = np.arange(num_bars)  # the label locations
     width = (1.0 - 0.3) / num_bars
     max_width = width * num_bars
-    half_width = max_width * 0.5
+    half_max_width = max_width * 0.5
 
     fig, ax = plt.subplots()
 
@@ -47,7 +47,12 @@ def render_bar_data(data, outpath):
         name = xvalues[i*2+0]
         values = xvalues[i*2+1]
         print(name, values)
-        ax.bar(x - half_width + i*width, values, width, label=name)
+        px = x - half_max_width
+        ax.bar(x - half_max_width + i*width, values, width, label=name)
+
+    hlines = data.get('hlines', None)
+    if hlines is not None:
+        ax.hlines(hlines, xmin=x-half_max_width-width*0.5, xmax=x+half_max_width+width*0.5, color='w', linestyle = 'dotted')
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel(data['ylabel'])
