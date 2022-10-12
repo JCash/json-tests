@@ -34,6 +34,14 @@ LIB_INCLUDE=./modules/centijson
 LIB_SOURCE=./modules/centijson
 clang -Os -flto -fpic -o build/centijson build/main.o src/example_centijson.c ${LIB_SOURCE}/src/json.c -I${LIB_INCLUDE}/src
 
+LIB_INCLUDE=./modules/jaxon
+LIB_SOURCE=./modules/jaxon
+clang -Os -flto -fpic -o build/jaxon build/main.o src/example_jaxon.c ${LIB_SOURCE}/c_src/decoder.c -I${LIB_INCLUDE}/c_src
+
+LIB_INCLUDE=./modules/libjson
+LIB_SOURCE=./modules/libjson
+clang -Os -flto -fpic -o build/libjson build/main.o src/example_libjson.c ${LIB_SOURCE}/json.c -I${LIB_INCLUDE}
+
 rm build/*.o
 
 strip build/yyjson

@@ -33,9 +33,10 @@ def render_bar_data(data, outpath):
     xlabels = data['xlabels']
     xvalues = data['xvalues']
 
-    num_bars = len(xlabels)
-    x = np.arange(num_bars)  # the label locations
-    width = (1.0 - 0.3) / num_bars
+    x = np.arange(len(xlabels))  # the label locations
+
+    num_bars = len(xvalues)//2
+    width = (1.0 - 0.2) / num_bars
     max_width = width * num_bars
     half_max_width = max_width * 0.5
 
@@ -46,8 +47,8 @@ def render_bar_data(data, outpath):
     for i in range(0, len(xvalues)//2):
         name = xvalues[i*2+0]
         values = xvalues[i*2+1]
+        print("values", values, len(values))
         print(name, values)
-        px = x - half_max_width
         ax.bar(x - half_max_width + i*width, values, width, label=name)
 
     hlines = data.get('hlines', None)

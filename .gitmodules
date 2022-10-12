@@ -19,3 +19,9 @@
 [submodule "modules/centijson"]
 	path = modules/centijson
 	url = git@github.com:mity/centijson.git
+[submodule "modules/jaxon"]
+	path = modules/jaxon
+	url = git@github.com:boudra/jaxon.git
+[submodule "modules/libjson"]
+	path = modules/libjson
+	url = git@github.com:vincenthz/libjson.git

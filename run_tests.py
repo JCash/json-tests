@@ -3,7 +3,7 @@ import os, re, sys, json, subprocess
 from typing import OrderedDict
 from collections import OrderedDict
 
-ALL_TESTS=['yyjson', 'simdjson', 'centijson', 'zzzjson', 'cjson', 'parson']
+ALL_TESTS=['yyjson', 'simdjson', 'jaxon', 'libjson', 'centijson', 'zzzjson', 'cjson', 'parson']
 JSON_FILES=['assets/1.json', 'assets/2.json', 'assets/3.json', 'assets/4.json']
 JSON_SIZES=OrderedDict()
 REPORTS=OrderedDict()
