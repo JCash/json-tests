@@ -30,6 +30,50 @@ static void process_callback(json_event_t* event, void* user_data)
     }
 }
 
+// static void printIndent(int indent)
+// {
+//     for (int i = 0; i < indent; ++i)
+//     {
+//         printf("  ");
+//     }
+// }
+
+// static void print_callback(json_event_t* event, void* user_data)
+// {
+//     int* indent = (int*)user_data;
+
+//     printIndent(*indent);
+
+//     switch(event->type)
+//     {
+//     case NIL:           printf("nil"); break;
+//     case BOOLEAN:       printf("%d (bool)", event->value.boolean?1:0); break;
+//     case INTEGER:       printf("%ld (integer)", event->value.integer); break;
+//     case DECIMAL:       printf("%g (number)", event->value.decimal); break;
+//     case STRING:        printf("%.*s (str)", (uint32_t)event->value.string.size, event->value.string.buffer); break;
+//     case START_ARRAY:
+//         (*indent)++;
+//         printf("[");
+//         break;
+//     case END_ARRAY:
+//         (*indent)--;
+//         printf("]");
+//         break;
+//     case KEY:           printf("%.*s (key)", (uint32_t)event->value.string.size, event->value.string.buffer); break;
+//     case START_OBJECT:
+//         (*indent)++;
+//         printf("{");
+//         break;
+//     case END_OBJECT:
+//         (*indent)--;
+//         printf("}");
+//         break;
+//     default:            break;
+//     }
+
+//     printf("  t: %d\n", event->type);
+// }
+
 void* parse_json(const char* json, size_t length, double* sum)
 {
     decoder_t d;
@@ -37,12 +81,14 @@ void* parse_json(const char* json, size_t length, double* sum)
 
     update_decoder_buffer(&d, (unsigned char*)json, length);
 
+    //int indent = 0;
     json_event_t e;
     e.type = UNDEFINED;
     while(e.type < SYNTAX_ERROR) {
         decode(&d, &e);
 
         process_callback(&e, (void*)sum);
+        //print_callback(&e, (void*)&indent);
     }
 
     if (e.type == END)
@@ -62,31 +108,7 @@ void free_json(void* doc)
     free(doc);
 }
 
-// static void traverse_node(cJSON* node, double* ctx)
-// {
-//     int type = node->type;
-//     if (type == cJSON_Array || type == cJSON_Object)
-//     {
-//         cJSON* item = node->child;
-//         while(item != NULL)
-//         {
-//             traverse_node(item, ctx);
-//             item = item->next;
-//         }
-//     }
-//     else if (type == cJSON_Number)
-//     {
-//         *ctx += node->valuedouble;
-//     }
-//     else if (type == cJSON_True)
-//     {
-//         *ctx += 1;
-//     }
-// }
-
 void traverse_json(void* _doc, double* sum)
 {
-    // cJSON* doc = (cJSON*)_doc;
-    // traverse_node(doc, sum);
     *sum = 0;
 }

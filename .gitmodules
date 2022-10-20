@@ -25,3 +25,6 @@
 [submodule "modules/libjson"]
 	path = modules/libjson
 	url = git@github.com:vincenthz/libjson.git
+[submodule "modules/pdjson"]
+	path = modules/pdjson
+	url = git@github.com:skeeto/pdjson.git

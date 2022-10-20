@@ -42,6 +42,10 @@ LIB_INCLUDE=./modules/libjson
 LIB_SOURCE=./modules/libjson
 clang -Os -flto -fpic -o build/libjson build/main.o src/example_libjson.c ${LIB_SOURCE}/json.c -I${LIB_INCLUDE}
 
+LIB_INCLUDE=./modules/pdjson
+LIB_SOURCE=./modules/pdjson
+clang -Os -flto -fpic -o build/pdjson build/main.o src/example_pdjson.c ${LIB_SOURCE}/pdjson.c -I${LIB_INCLUDE}
+
 rm build/*.o
 
 strip build/yyjson
